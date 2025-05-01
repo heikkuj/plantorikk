@@ -41,13 +41,13 @@ const Login = () => {
 
       <TextInput
         autoCapitalize="none"
-        placeholder="john@doe.com"
+        placeholder="E-postadresse"
         value={email}
         onChangeText={setEmail}
         style={styles.inputField}
       />
       <TextInput
-        placeholder="password"
+        placeholder="Passord"
         value={password}
         onChangeText={setPassword}
         secureTextEntry
@@ -55,9 +55,9 @@ const Login = () => {
       />
 
       <TouchableOpacity onPress={onSignInPress} style={styles.button}>
-        <Text style={{ color: '#fff' }}>Sign in</Text>
+        <Text style={{ color: '#fff' }}>Logg inn</Text>
       </TouchableOpacity>
-      <Button onPress={onSignUpPress} title="Create Account" color={'#fff'}></Button>
+      <Button onPress={onSignUpPress} title="Ny bruker" color={'#ff8c61'}></Button>
     </View>
   )
 }
