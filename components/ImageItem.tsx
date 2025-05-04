@@ -1,7 +1,7 @@
 import { supabase } from '@/config/initSupabase';
 import { Ionicons } from '@expo/vector-icons';
 import { FileObject } from '@supabase/storage-js';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Image, Text, TouchableOpacity, View } from 'react-native';
 
 // Image item component that displays the image from Supabase Storage and a delete button
@@ -16,16 +16,37 @@ const ImageItem = ({
 }) => {
   const [image, setImage] = useState<string>('');
 
-  supabase.storage
-    .from('files')
-    .download(`${userId}/${item.name}`)
-    .then(({ data }) => {
-      const fr = new FileReader()
-      fr.readAsDataURL(data!)
-      fr.onload = () => {
-        setImage(fr.result as string)
+  const loadImage = async () => {
+    try {
+      const { data } = supabase.storage
+      .from('images')
+      .getPublicUrl(`${userId}/${item.name}`);
+
+      if (data && data.publicUrl) {
+        setImage(data.publicUrl);
       }
-    });
+    } catch (error) {
+      console.error('Error loading image.', error);
+    }
+  };
+
+
+  // supabase.storage
+  // .from('images')
+  // .download(`${userId}/${item.name}`)
+  // .then(({ data }) => {
+  //   const fr = new FileReader()
+  //   fr.readAsDataURL(data!)
+  //   fr.onload = () => {
+  //     setImage(fr.result as string)
+  //   }
+  // });
+
+  useEffect(() => {
+    loadImage();
+  })
+
+
 
   return (
     <View style={{ flexDirection: 'row', margin: 1, alignItems: 'center', gap: 5 }}>
